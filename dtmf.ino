@@ -6,11 +6,13 @@
 	rey.nico@gmail.com
 */
 
-int bin0 = A0;
-int bin1 = A1;
-int bin2 = A2;
-int bin3 = A3;
-int STD  = A4;
+int bin0 = 6;
+int bin1 = 7;
+int bin2 = 8;
+int bin3 = 9;
+int STD  = 10;
+char dtmf[5];
+int i = 1;
 byte irqState;
 
 void setup() {
@@ -25,13 +27,30 @@ void setup() {
 void loop() {
 	irqState = digitalRead(STD); //Get the first trigger tone
 	if (irqState == 1) {
-		controller(); //Do controller stuff
+		dtmf[i++] = mapKey(); //Store the command
 		//Send data to the console
-		Serial.print("Dato: ");
 		char code = mapKey(); //Get the code number
+		Serial.print("Dato: ");
 		Serial.println(code);
 		delay(100); //delay to sync the STD data
+	} 
+	if (i == 4) { //When you reach the last digit..
+		i = 0;  //Resets the read counter
+		showCommand(); //And check the received data
 	}
+}
+
+void showCommand() {
+	if (dtmf[0] == '*') {
+	Serial.print("HOLA ");
+		if (dtmf[1] == '1') {
+			Serial.print("KE ");
+			if (dtmf[2] == '1') {
+				Serial.print("ASE");
+			} else {i = 0;}
+		} else {i = 0;}
+	} else {i = 0;}
+	i = 0; //Reset the read counter
 }
 
 byte mapKey() {

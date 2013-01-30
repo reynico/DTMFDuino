@@ -59,7 +59,7 @@ void loop() {
 		char code = mapKey(); //Get the code number
 		Serial.print("Dato: ");
 		Serial.println(code);
-		delay(100); //delay to sync the STD data
+		delay(200); //delay to sync the STD data
 	} 
 	if (i == 4) { //When you reach the last digit..
 		i = 1;  //Resets the read counter	

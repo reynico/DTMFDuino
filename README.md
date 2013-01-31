@@ -2,6 +2,11 @@ DTMFDuino receives DTMF tones through a MT8870 integrated circuit who converts t
 microcontroller runs Arduino bootloader and converts the received codes to actions (turn on and off some outputs), also the system has the option to know the current state 
 of each output.
 
+
+First Release Candidate?
+------------------------
+I think this version can be easily a Release Candidate of the project. I've added a simple timer who counts seconds between the sent digits. If there is a timeout greater than 3 seconds, the array is reseted to 0 to do all the stuff again, this is very important because if you make a mistake when sending digits the system goes in a weird state because the counter was 'moved' one or more places. To avoid this, I reset the counter when the timeout reachs 3 secs.
+
 Features
 --------
 

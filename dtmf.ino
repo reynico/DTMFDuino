@@ -5,6 +5,7 @@
 	Nicolas Rey, 2013.
 	rey.nico@gmail.com
 */
+#include <Time.h>  
 
 int bin0 = A4;
 int bin1 = A3;
@@ -59,10 +60,17 @@ void loop() {
 		char code = mapKey(); //Get the code number
 		Serial.print("Dato: ");
 		Serial.println(code);
-		delay(200); //delay to sync the STD data
+		setTime(0); //Reset the timeout counter
+		delay(200); //Delay to sync the STD data
 	} 
+	if ((second() > 3) && (i > 1)) {
+		i = 1;  //Resets the read counter	
+		Serial.println("I've reseted the counter");
+		setTime(0);
+	}
 	if (i == 4) { //When you reach the last digit..
 		i = 1;  //Resets the read counter	
+		setTime(0);
 		controller();
 	}
 }
@@ -119,6 +127,19 @@ void controller () {
 		Serial.println("First char");
 		if (dtmf[2] == '0') { //Disable output
 			switch (dtmf[3]) {
+				case '0': //Turn off all outputs
+					digitalWrite(Out1,LOW);
+					digitalWrite(Out2,LOW);
+					digitalWrite(Out3,LOW);
+					digitalWrite(Out4,LOW);
+					digitalWrite(Out5,LOW);
+					digitalWrite(Out6,LOW);
+					digitalWrite(Out7,LOW);
+					digitalWrite(Out8,LOW);
+					digitalWrite(Out9,LOW);
+					digitalWrite(Out10,LOW);
+					Serial.println("All off");
+					break;
 				case '1':
 					digitalWrite(Out1,LOW);
 					Serial.println("Out1 off");
@@ -163,6 +184,19 @@ void controller () {
 		}
 		if (dtmf[2] == '1') { //Enable output
 			switch (dtmf[3]) {
+				case '0': //Turn on all outputs
+					digitalWrite(Out1,HIGH);
+					digitalWrite(Out2,HIGH);
+					digitalWrite(Out3,HIGH);
+					digitalWrite(Out4,HIGH);
+					digitalWrite(Out5,HIGH);
+					digitalWrite(Out6,HIGH);
+					digitalWrite(Out7,HIGH);
+					digitalWrite(Out8,HIGH);
+					digitalWrite(Out9,HIGH);
+					digitalWrite(Out10,HIGH);
+					Serial.println("All on");
+					break;
 				case '1':
 					digitalWrite(Out1,HIGH);
 					Serial.println("Out1 on");
